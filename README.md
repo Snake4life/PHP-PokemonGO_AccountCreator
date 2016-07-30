@@ -9,7 +9,7 @@
 ###Requirements:
 * PHP CLI
 
-##Installation:
+###Installation:
  * Rename conf_example.php to conf.php
 
 ###Usage:
