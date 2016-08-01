@@ -25,11 +25,13 @@ Options:
 -o    : If CSV output file already exists it gets overwritten (otherwise the accounts are appended)
 -p    : account prefix (maximum 7 characters long)
 ```
-**Example:**
+**Example usage:**
 ```
+#Go to cli directory
+cd cli
+#Create 5 accounts with prefix "test". Possible countries are US,UK,DE,AT.
 php index.php -p "test" -n 5 -c US,UK,DE,AT
 ```
-Creates 5 accounts with prefix "test". Possible countries are US,UK,DE,AT.
 
 ###Countries:
 The country option expects ISO2 codes: https://en.wikipedia.org/wiki/ISO_3166-2#Current_codes
