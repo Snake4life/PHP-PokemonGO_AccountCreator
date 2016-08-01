@@ -10,7 +10,11 @@
 * PHP CLI
 
 ###Installation:
- * Rename conf_example.php to conf.php
+ 1. Clone repository:
+   ```bash
+   git clone https://github.com/SchwarzwaldFalke/PHP-PokemonGO_AccountCreator.git
+   ```
+ 2. Rename conf_example.php to conf.php
 
 ###Usage:
 
@@ -28,7 +32,7 @@ Options:
 **Example usage:**
 ```bash
 #Go to cli directory
-cd cli
+cd PHP-PokemonGO_AccountCreator/cli
 #Create 5 accounts with prefix "test". Possible countries are US,UK,DE,AT.
 php index.php -p "test" -n 5 -c US,UK,DE,AT
 ```
