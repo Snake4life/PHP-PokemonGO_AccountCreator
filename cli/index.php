@@ -59,7 +59,7 @@ if (!empty($options["p"])) {
 }
 
 
-require_once("../conf.php");
+require_once(__DIR__."/../conf.php");
 
 /** @var PTCAccount[] $accounts */
 $accounts = array();
