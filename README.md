@@ -26,7 +26,7 @@ Options:
 -p    : account prefix (maximum 7 characters long)
 ```
 **Example usage:**
-```
+```bash
 #Go to cli directory
 cd cli
 #Create 5 accounts with prefix "test". Possible countries are US,UK,DE,AT.
