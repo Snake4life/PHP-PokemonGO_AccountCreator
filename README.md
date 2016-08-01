@@ -11,7 +11,7 @@
 
 ###Installation:
  1. Clone repository:
-   ```bash
+   ```
    git clone https://github.com/SchwarzwaldFalke/PHP-PokemonGO_AccountCreator.git
    ```
  2. Rename conf_example.php to conf.php
