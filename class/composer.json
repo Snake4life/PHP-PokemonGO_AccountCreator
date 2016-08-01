@@ -16,7 +16,6 @@
   },
   "require": {
     "php-curl-class/php-curl-class": "4.13.0",
-    "theseer/fdomdocument": "1.6.1",
     "monolog/monolog": "1.20.0"
   }
 }
