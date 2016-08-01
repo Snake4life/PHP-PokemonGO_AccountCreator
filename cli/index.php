@@ -58,8 +58,9 @@ if (!empty($options["p"])) {
     define("ACCOUNT_PREFIX", $options["p"]);
 }
 
-
-require_once(__DIR__."/../conf.php");
+//Use rtrim since __DIR__ returns "/" if the script is inside the root directory:
+//http://php.net/manual/en/language.constants.predefined.php
+require_once(rtrim(__DIR__, '/') . "/../conf.php");
 
 /** @var PTCAccount[] $accounts */
 $accounts = array();
