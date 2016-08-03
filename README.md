@@ -42,12 +42,11 @@ php index.php -p "test" -n 5 -c US,UK,DE,AT
 ```
 
 **Example [PokemonGo-Map](https://github.com/AHAAAAAAA/PokemonGo-Map) credential string generation:**
- ```
- php5 cli/generatePogoMapCmd.php -f output/accounts.csv -s 3
- ```
- Output:
- ```
- USER1="-u testaccc2b8 -p testaccc2b8 -u testacc5a20 -p testacc5a20 -u testacc93b4 -p testacc93b4"
- USER2="-u testacc2422 -p testacc2422 -u testacce9d5 -p testacce9d5 -u testaccd860 -p testaccd860"
- USER3="-u testacc3dbd -p testacc3dbd -u testacc76eb -p testacc76eb -u testacc9637 -p testacc9637"
- ```
+```basj
+php5 cli/generatePogoMapCmd.php -f output/accounts.csv -s 3
+#Output:
+USER1="-u testaccc2b8 -p testaccc2b8 -u testacc5a20 -p testacc5a20 -u testacc93b4 -p testacc93b4"
+USER2="-u testacc2422 -p testacc2422 -u testacce9d5 -p testacce9d5 -u testaccd860 -p testaccd860"
+USER3="-u testacc3dbd -p testacc3dbd -u testacc76eb -p testacc76eb -u testacc9637 -p testacc9637"
+```
+ 
