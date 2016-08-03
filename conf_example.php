@@ -10,30 +10,15 @@ define("WEB_PATH", ROOT_PATH . "www/");
 define("LOG_PATH", ROOT_PATH . "log/");
 define("CLI_PATH", ROOT_PATH . "cli/");
 define("OUTPUT_PATH", ROOT_PATH . "output/");
+define("DEFAULT_OUTPUT_FILE", OUTPUT_PATH . "accounts.csv");
 define("LOG_LEVEL", LogLevel::DEBUG);
 
-
 /** User options - Change them as you need. This settings get overwritten by cli options!!! */
-
-if (!defined("COUNTRIES")) {
-    define("COUNTRIES", "DE,AT");
-}
-
-if (!defined("APPEND_OUTPUT")) {
-    define("APPEND_OUTPUT", true);
-}
-
-if (!defined("CSV_OUTPUT_FILE")) {
-    /** Path to CSV file which contains the created account credentials (PHP will create it if it doesn't exist) */
-    define("CSV_OUTPUT_FILE", OUTPUT_PATH . "accounts.csv");
-}
-
-if (!defined("ACCOUNT_PREFIX")) {
-    /** Username prefix. The maximum length of a username is 10 characters! */
-    define("ACCOUNT_PREFIX", "lasw");
-}
-
-if (!defined("NUMBER_OF_ACCOUNTS")) {
-    /** Number of accounts to create */
-    define("NUMBER_OF_ACCOUNTS", 5);
+class Conf
+{
+    public static $countries = "DE,AT";
+    public static $appendOutput = true;
+    public static $accountPrefix = "lAd12";
+    public static $numberOfAccounts = 5;
+    public static $outputFile = DEFAULT_OUTPUT_FILE;
 }

@@ -2,6 +2,10 @@
 use CB\Mail\Fyii;
 use CB\PTCAccount;
 
+//Use rtrim since __DIR__ returns "/" if the script is inside the root directory:
+//http://php.net/manual/en/language.constants.predefined.php
+require_once(rtrim(__DIR__, '/') . "/../conf.php");
+
 $options = getopt("ac:d:f:hn:p:");
 
 //Print help message
@@ -10,7 +14,7 @@ if (isset($options["h"])) {
     $usageMessage .= "Options:" . PHP_EOL;
     $usageMessage .= "-c    : comma seperated list of possible countries ISO2 shortcode" . PHP_EOL;
     $usageMessage .= "-d    : debug level. Possible modes: debug, info, notice, warning, error, critical, alert, emergency" . PHP_EOL;
-    $usageMessage .= "-f    : absolute path to the CSV output file" . PHP_EOL;
+    $usageMessage .= "-f    : Path or name of the CSV output file" . PHP_EOL;
     $usageMessage .= "-h    : list available command line options (this page)" . PHP_EOL;
     $usageMessage .= "-n    : number of accounts. Use this with care, too many accounts could cause a ban." . PHP_EOL;
     $usageMessage .= "-o    : If CSV output file already exists it gets overwritten (otherwise the accounts are appended)" . PHP_EOL;
@@ -26,16 +30,14 @@ if (!empty($options["c"])) {
             die("Invalid ISO2 shortcode: " . $part . PHP_EOL);
         }
     }
-    define("COUNTRIES", $options["c"]);
+    Conf::$countries = $options["c"];
 }
 
 if (!empty($options["f"])) {
-    $filepath = trim($options["f"]);
-    //http://stackoverflow.com/a/10473026 and http://thedailywtf.com/articles/mysterious-mysteries-of-strange-mystery
-    if (strrpos($filepath, "/", -strlen($filepath)) !== false) {
-        define("CSV_OUTPUT_FILE", $filepath);
+    if (file_exists($options["f"])) {
+        Conf::$outputFile = $options["f"];
     } else {
-        die("Invalid filename - absolute path needed" . PHP_EOL);
+        die("Couldn't find CSV file: " . $options["f"]);
     }
 }
 
@@ -44,36 +46,33 @@ if (!empty($options["n"])) {
     if (0 >= $n) {
         die("Invalid number of accounts (must be > 0): " . $n . PHP_EOL);
     }
-    define("NUMBER_OF_ACCOUNTS", $n);
+    Conf::$numberOfAccounts = $n;
 }
 
 if (isset($options["o"])) {
-    define("APPEND_OUTPUT", false);
+    Conf::$appendOutput = false;
 }
 
 if (!empty($options["p"])) {
     if (strlen($options["p"]) > 7) {
         die("Account prefix must be shorter than 8 characters (PTC allows only 10 characters)" . PHP_EOL);
     }
-    define("ACCOUNT_PREFIX", $options["p"]);
+    Conf::$accountPrefix = $options["p"];
 }
 
-//Use rtrim since __DIR__ returns "/" if the script is inside the root directory:
-//http://php.net/manual/en/language.constants.predefined.php
-require_once(rtrim(__DIR__, '/') . "/../conf.php");
 
 /** @var PTCAccount[] $accounts */
 $accounts = array();
 $registration = new \CB\PTCRegister();
 
-$countries = explode(",", COUNTRIES);
+$countries = explode(",", Conf::$countries);
 $countries = array_map(function ($value) {
     return strtoupper(trim($value));
 }, $countries);
 
 while (true) {
     //Maximum length of 10 chars allowed
-    $username = PTCAccount::generateUsername(ACCOUNT_PREFIX);
+    $username = PTCAccount::generateUsername(Conf::$accountPrefix);
     if (isset($accounts[$username])) {
         //Try again
         continue;
@@ -93,17 +92,20 @@ while (true) {
         $accounts[$account->username] = $account;
     }
 
-    if (count($accounts) >= NUMBER_OF_ACCOUNTS) {
+    if (count($accounts) >= Conf::$numberOfAccounts) {
         break;
     }
     sleep(rand(1, 5));
 }
 
 //Create CSV
-$file = fopen(CSV_OUTPUT_FILE, "a");
-if (empty(file_get_contents(CSV_OUTPUT_FILE))) {
+$file = fopen(Conf::$outputFile, "a");
+if (empty(file_get_contents(Conf::$outputFile))) {
     fputcsv($file, array("Username", "Password", "Date of birth", "Country", "E-Mail"));
 }
 foreach ($accounts as $account) {
     fputcsv($file, $account->toArray());
 }
+
+echo "Finished account creation (" . count($accounts) . " Accounts)" . PHP_EOL;
+echo "Path to CSV file: " . realpath(Conf::$outputFile) . PHP_EOL;
