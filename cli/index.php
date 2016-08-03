@@ -1,4 +1,5 @@
 <?php
+use CB\Log\Logger;
 use CB\Mail\Fyii;
 use CB\PTCAccount;
 
@@ -93,18 +94,20 @@ while (true) {
 
     $account = new PTCAccount($username, $password, $dateOfBirth, $country, $eMail);
 
-
     if ($registration->registerAccount($account)) {
         $accounts[$account->username] = $account;
+        //Fill CSV
+        fputcsv($file, $account->toArray());
+        Logger::get()->addInfo("Created account", $account->toArray());
+        Logger::get()->addNotice("Created account " . count($accounts) . " of " . Conf::$numberOfAccounts);
+    } else {
+        Logger::get()->addDebug("Couldn't create account", $account->toArray());
     }
-
-    //Fill CSV
-    fputcsv($file, $account->toArray());
-
 
     if (count($accounts) >= Conf::$numberOfAccounts) {
         break;
     }
+    Logger::get()->addNotice("Sleep before creating another account");
     sleep(rand(1, 5));
 }
 
