@@ -70,6 +70,11 @@ $countries = array_map(function ($value) {
     return strtoupper(trim($value));
 }, $countries);
 
+$file = fopen(Conf::$outputFile, "a");
+if (empty(file_get_contents(Conf::$outputFile))) {
+    fputcsv($file, array("Username", "Password", "Date of birth", "Country", "E-Mail"));
+}
+
 while (true) {
     //Maximum length of 10 chars allowed
     $username = PTCAccount::generateUsername(Conf::$accountPrefix);
@@ -88,23 +93,19 @@ while (true) {
 
     $account = new PTCAccount($username, $password, $dateOfBirth, $country, $eMail);
 
+
     if ($registration->registerAccount($account)) {
         $accounts[$account->username] = $account;
     }
+
+    //Fill CSV
+    fputcsv($file, $account->toArray());
+
 
     if (count($accounts) >= Conf::$numberOfAccounts) {
         break;
     }
     sleep(rand(1, 5));
-}
-
-//Create CSV
-$file = fopen(Conf::$outputFile, "a");
-if (empty(file_get_contents(Conf::$outputFile))) {
-    fputcsv($file, array("Username", "Password", "Date of birth", "Country", "E-Mail"));
-}
-foreach ($accounts as $account) {
-    fputcsv($file, $account->toArray());
 }
 
 echo "Finished account creation (" . count($accounts) . " Accounts)" . PHP_EOL;
