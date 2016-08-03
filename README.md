@@ -17,8 +17,10 @@
    ```
  2. Rename conf_example.php to conf.php
  
-###Usage:
+###Countries:
+The country option expects ISO2 codes: https://en.wikipedia.org/wiki/ISO_3166-2#Current_codes
 
+###Usage:
 ```
 Usage: php index.php [-p prefix] [-n number] [-f filename] [-c countries] [-h]
 Options:
@@ -30,10 +32,6 @@ Options:
 -o    : If CSV output file already exists it gets overwritten (otherwise the accounts are appended)
 -p    : account prefix (maximum 7 characters long)
 ```
-
- 
-###Countries:
-The country option expects ISO2 codes: https://en.wikipedia.org/wiki/ISO_3166-2#Current_codes
 
 **Example usage:**
 ```bash
